@@ -41,12 +41,23 @@ with tab_list:
         
         # Add basic filters
         col1, col2 = st.columns(2)
-        with col1:
-            cat_filters = st.multiselect("Фильтр по категориям", options=df['category'].unique())
-        with col2:
-            # simple year-month filter string like "2023-10"
-            df['year_month'] = df['date'].str[:7]
-            month_filters = st.multiselect("Фильтр по месяцам", options=sorted(df['year_month'].unique(), reverse=True))
+       with col1:
+        # Безопасное получение списка категорий
+        if not df.empty and 'category' in df.columns:
+            categories = df['category'].unique()
+        else:
+            categories = []
+            
+        cat_filters = st.multiselect("Фильтр по категориям", options=categories)
+
+    with col2:
+        # Безопасное получение списка месяцев
+        if not df.empty and 'date' in df.columns:
+            df['year_month'] = df['date'].apply(lambda x: x.strftime('%Y-%m') if hasattr(x, 'strftime') else str(x)[:7])
+            months = sorted(df['year_month'].unique(), reverse=True)
+        else:
+            months = []
+        month_filters = st.multiselect("Фильтр по месяцам", options=months)
             
         filtered_df = df.copy()
         if cat_filters:
