@@ -4,7 +4,6 @@ import os
 from database import engine, Base
 import models
 
-models.Base.metadata.drop_all(bind=engine)
 # Эта строка автоматически создаст таблицы в любой подключенной базе
 Base.metadata.create_all(bind=engine)
 
