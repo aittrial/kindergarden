@@ -93,5 +93,5 @@ with tab_list:
                 delete_expense(del_id)
                 st.warning("Запись о расходе удалена из базы.")
                 st.rerun()
-    else:
-        st.info("История расходов пуста.")
+            else:
+                st.info("История расходов пуста.")
